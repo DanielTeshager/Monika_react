@@ -1,25 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "./style.css";
+import { useState, useEffect } from "react";
+import "./SensorsCardContainer";
+import SensorCardsContainer from "./SensorsCardContainer";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [sensors, fetchSensors] = useState([]);
+
+	function draw_graph(sensor_name) {
+		getData(sensor_name);
+	}
+
+	const getData = (sensor_name = "") => {
+		var path = "";
+		if (sensor_name) {
+			path = `http://127.0.0.1:5000/?sensor_name=${sensor_name}`;
+		} else {
+			path = `http://127.0.0.1:5000/current_temp_humidity`;
+		}
+		fetch(path)
+			.then((res) => res.json())
+			.then((res) => {
+				console.log(res);
+				fetchSensors(res);
+			});
+	};
+
+	useEffect(() => {
+		getData();
+	}, []);
+
+	return (
+		<div className="App">
+			<div className="sensor-cards">
+				<SensorCardsContainer
+					data={sensors}
+					graph={draw_graph}
+				></SensorCardsContainer>
+			</div>
+		</div>
+	);
 }
 
 export default App;
