@@ -10,7 +10,7 @@ const SensorCard = ({ sensor, getGraph }) => {
 
 		function getClick() {
 			console.log(Object.keys(sensor)[0]);
-			getGraph(Object.keys(sensor)[0]);
+			getGraph(sensor, sensor_name);
 		}
 
 		return (
