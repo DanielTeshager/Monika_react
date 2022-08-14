@@ -5,19 +5,17 @@ import "./SensorsCardContainer";
 import "./ChartComponent";
 import SensorCardsContainer from "./SensorsCardContainer";
 import ChartComponent from "./ChartComponent";
+import HeaderComponent from "./HeaderComponent";
 
 function App() {
 	const [sensors, fetchSensors] = useState([]);
 	const [graph, setGraph] = useState([]);
-	const options = {};
-	// use state to store the graph data
-	// const [graph_data, setGraphData] = useState([]);
-	// const [graph_sensor_name, setGraphSensorName] = useState("");
+	const [currentDate, setCurrentDate] = useState(new Date());
 
 	//draw graph when sensor name is clicked
 	async function draw_graph(sensor_name, device_name) {
 		//populate graph_sensor_name with sensor_name
-
+		console.log(sensor_name);
 		var chart_data = Object.values(sensor_name)[0];
 		// loop through chart_data dictionary and get the keys
 		var time_stamp = Object.keys(chart_data);
@@ -29,20 +27,18 @@ function App() {
 			temp.push(chart_data[time_stamp[i]].T);
 			hum.push(chart_data[time_stamp[i]].H);
 		}
+		//replace underscore with space in device_name
+		device_name = device_name.replace(/_/g, " ");
+		//capitalize first letter of device_name
+		device_name = device_name.charAt(0).toUpperCase() + device_name.slice(1);
 		//set graph_data with the data
 		setGraph({
 			device_name: device_name,
 			time_stamp: time_stamp,
 			temp: temp,
 			hum: hum,
+			currentDate: currentDate,
 		});
-		// setGraphSensorName(sensor_name);
-		// call getDat function and wait for response to populate graph_data
-		// setGraphData(data);
-		//wait for response to populate graph_data
-		// setGraphData(data);
-
-		// console.log(graph_sensor_name);
 		console.log(graph);
 	}
 
@@ -59,8 +55,9 @@ function App() {
 				if (sensor_name) {
 					return res;
 				} else {
-					fetchSensors(res);
+					fetchSensors(res.data);
 					console.log(res);
+					setCurrentDate(res.current_date);
 				}
 			});
 	};
@@ -69,26 +66,23 @@ function App() {
 		getData();
 	}, []);
 
-	if (Object.keys(graph).length > 0) {
-		return (
-			<ChartComponent
-				data={graph}
-				options={options}
-				setGraph={setGraph}
-			></ChartComponent>
-		);
-	} else {
-		return (
-			<div className="App">
+	return (
+		<div className="App">
+			<HeaderComponent />
+
+			<div className="main container">
 				<div className="sensor-cards">
 					<SensorCardsContainer
 						data={sensors}
 						graph={draw_graph}
 					></SensorCardsContainer>
 				</div>
+				{Object.keys(graph).length > 0 && (
+					<ChartComponent data={graph} setGraph={setGraph}></ChartComponent>
+				)}
 			</div>
-		);
-	}
+		</div>
+	);
 }
 
 export default App;

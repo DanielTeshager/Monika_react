@@ -5,7 +5,8 @@ const SensorCard = ({ sensor, getGraph }) => {
 
 	if (sensor) {
 		var sensor_name = Object.keys(sensor)[0];
-		var key_time = Object.keys(sensor[sensor_name])[0];
+		//get the last element of the array
+		var key_time = Object.keys(sensor[sensor_name]).at(-1);
 		var sensor_data = sensor[sensor_name][key_time];
 
 		function getClick() {

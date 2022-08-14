@@ -1,12 +1,16 @@
 .btn-close {
-	position: absolute;
-	top: 0;
-	right: 0;
+	position: relative;
+	top: -3rem;
+	left: 50%;
 	padding: 0.5rem;
 	font-size: 1.5rem;
 	color: #fff;
 	background: #888;
 	cursor: pointer;
+}
+
+.btn-close:hover {
+	background: #ee9898;
 }
 
 .chart {

@@ -32,11 +32,11 @@ const ChartComponent = (data) => {
 		},
 		yaxis: {
 			title: {
-				text: "Temperature",
+				text: "Temperature on " + data.data.currentDate,
 			},
 		},
 		title: {
-			text: data.data.device_name,
+			text: data.data.device_name + " on " + data.data.currentDate,
 			align: "left",
 			margin: 10,
 			offsetX: 0,

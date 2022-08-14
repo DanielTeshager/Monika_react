@@ -17,8 +17,12 @@
 }
 .sensor-cards {
 	display: flex;
-	gap: 2rem;
+	gap: 1rem;
 	padding: 3rem;
+	flex-direction: column;
+	position: relative;
+	left: 0;
+	width: 14rem;
 }
 .sensor-card {
 	width: 200px;
@@ -30,6 +34,7 @@
 	color: white;
 	padding-bottom: 1rem;
 	cursor: pointer;
+	width: 100%;
 }
 .sensor-card:hover {
 	background-color: #888;
